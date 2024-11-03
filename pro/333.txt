@@ -1,0 +1,116 @@
+import flet as ft
+import json
+import os
+import asyncio  # Импортируем asyncio
+
+# File for storing state
+STATE_FILE = "clicker_state.json"
+
+# Load state from file
+def load_state():
+    try:
+        if os.path.exists(STATE_FILE):
+            with open(STATE_FILE, "r") as file:
+                state = json.load(file)
+            print(f"Loaded state: Score = {state['score']}, Progress = {state['progress_value']}")
+            return state
+        else:
+            print("State file does not exist. Returning default state.")
+    except Exception as e:
+        print(f"Error loading state: {e}")
+    return {"score": 0, "progress_value": 0}
+
+# Save state to file
+def save_state(score, progress_value):
+    try:
+        with open(STATE_FILE, "w") as file:
+            json.dump({"score": score, "progress_value": progress_value}, file)
+        print(f"Saved state: Score = {score}, Progress = {progress_value}")
+    except Exception as e:
+        print(f"Error saving state: {e}")
+
+async def main(page: ft.Page) -> None:
+    page.title = "Lil Clicker"
+    page.theme_mode = ft.ThemeMode.DARK
+    page.bgcolor = "#141221"
+    page.fonts = {"FulboArgenta": "fonts/FulboArgenta.ttf"}
+    page.theme = ft.Theme(font_family="FulboArgenta")
+
+    # Load state
+    state = load_state()
+    score_value = state["score"]
+    progress_value = state["progress_value"]
+
+    # Create interface elements
+    score = ft.Text(value=str(score_value), size=100)
+
+    # Coin image
+    coin_image = ft.Image(
+        src="LaCoin.png.png",  # Убедитесь, что путь к изображению корректен
+        fit=ft.ImageFit.CONTAIN,
+        scale=1.0,
+        animate_opacity=ft.Animation(duration=300, curve=ft.AnimationCurve.EASE_IN_OUT)
+    )
+
+    progress_bar = ft.ProgressBar(
+        value=progress_value,
+        width=page.width - 100,
+        bar_height=20,
+        color="#ff8b1f",
+        bgcolor="#bf6524"
+    )
+
+    async def score_up(event: ft.ContainerTapEvent) -> None:
+        nonlocal score_value, progress_value
+        score_value += 1
+        score.value = str(score_value)
+
+        # Coin image scale animation
+        coin_image.scale = 0.9
+        page.update()  # Убираем await
+        await asyncio.sleep(0.15)  # Заменяем на asyncio.sleep
+        coin_image.scale = 1.0
+        page.update()  # Убираем await
+
+        # Display the '1' symbol
+        one_symbol = ft.Text(value="1", size=30, color="red", opacity=1.0)
+        page.add(one_symbol)
+        page.update()  # Убираем await
+
+        await asyncio.sleep(1)
+        page.remove(one_symbol)
+
+        progress_value = min(1, progress_value + 0.01)
+        progress_bar.value = progress_value
+        progress_bar.animate_value = ft.Animation(
+            duration=100,
+            curve=ft.AnimationCurve.EASE_IN_OUT
+        )
+        page.update()  # Убираем await
+
+        save_state(score_value, progress_value)
+
+    click_container = ft.Container(
+        content=coin_image,
+        on_click=score_up,
+        margin=ft.Margin(0, 0, 0, 30)
+    )
+
+    page.add(
+        ft.Column(
+            controls=[
+                score,
+                click_container,
+                ft.Container(
+                    content=progress_bar,
+                    border_radius=ft.BorderRadius(top_left=10, top_right=10, bottom_left=10, bottom_right=10)
+                ),
+            ],
+            alignment=ft.MainAxisAlignment.CENTER,
+            horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+            spacing=10
+        )
+    )
+
+if __name__ == "__main__":
+    ft.app(target=main, view=ft.WEB_BROWSER, port=8000)
