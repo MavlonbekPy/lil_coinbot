@@ -13,7 +13,7 @@ def main_keyboard() -> InlineKeyboardMarkup:
             InlineKeyboardButton(
                 text="Play Game",
                 web_app=WebAppInfo(
-                    url="https://www.youtube.com/?app=desktop&hl=ru"
+                    url="https://localhost:8001"
                 )
             ),
             InlineKeyboardButton(
