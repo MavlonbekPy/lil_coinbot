@@ -13,7 +13,7 @@ def main_keyboard() -> InlineKeyboardMarkup:
             InlineKeyboardButton(
                 text="Play Game",
                 web_app=WebAppInfo(
-                    url="https://lilcoin.pythonanywhere.com"
+                    url="https://64.227.129.105:8001"
                 )
             ),
             InlineKeyboardButton(
