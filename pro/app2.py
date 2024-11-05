@@ -10,7 +10,7 @@ os.makedirs(STATE_DIR, exist_ok=True)
 
 # Base directory for static files (e.g., images, fonts)
 BASE_DIR = os.path.dirname(__file__)
-STATIC_DIR = os.path.join(BASE_DIR, "static")
+STATIC_DIR = os.path.join(BASE_DIR, "assets")
 
 # Paths for images and fonts
 COIN_IMAGE_PATH = os.path.join(STATIC_DIR, "LaCoin.jpg")
