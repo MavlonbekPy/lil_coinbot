@@ -14,7 +14,7 @@ STATIC_DIR = os.path.join(BASE_DIR, "static")
 
 # Paths for images and fonts
 COIN_IMAGE_PATH = os.path.join(STATIC_DIR, "lacoin.png")
-SMALL_IMAGE_PATH = os.path.join(STATIC_DIR, "Coin2.png.png")
+SMALL_IMAGE_PATH = os.path.join(STATIC_DIR, "Coin2.png.jpg")
 FONT_PATH = os.path.join(STATIC_DIR, "fonts", "FulboArgenta.ttf")
 
 # State file path for a specific user
