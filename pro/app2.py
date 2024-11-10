@@ -12,7 +12,7 @@ BASE_DIR = os.path.dirname(__file__)
 STATIC_DIR = os.path.join(BASE_DIR, "assets")
 
 # Paths for images and fonts
-COIN_IMAGE_PATH = "/root/lilcoin/lil_coinbot/pro/LaCoin.png.png"
+COIN_IMAGE_PATH = "/root/lilcoin/lil_coinbot/pro/LaCoin.png"
 FONT_PATH = os.path.join(STATIC_DIR, "fonts", "FulboArgenta.ttf")
 
 # State file path for a specific user

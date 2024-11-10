@@ -98,7 +98,7 @@ async def main(page: ft.Page) -> None:
     )
 
     # Проверяем наличие файла перед загрузкой изображения
-    small_image_path = "Coin2.png.png"  # Убедитесь, что путь к изображению корректен
+    small_image_path = "Coin2.png"  # Убедитесь, что путь к изображению корректен
     if os.path.exists(small_image_path):
         small_image = ft.Image(
             src=small_image_path,
